@@ -21,11 +21,6 @@ Sistema web que conecta **doadores de sangue e medicamentos** a **instituições
 - **Backend:** Java 21 + Spring Boot 4 (Web, Data JPA, Security, Validation), autenticação via JWT.
 - **Banco de dados:** PostgreSQL.
 
-> **Nota sobre a versão do Java:** o enunciado original pedia Java 17, mas o Spring Initializr
-> hoje só gera projetos a partir do Spring Boot 4, que exige Java 21 no mínimo (Spring Boot 3,
-> compatível com Java 17, já saiu de suporte). Como Java 21 também é uma versão LTS e o código é
-> compatível, o backend foi feito com Java 21 — vale avisar o professor dessa atualização de stack.
-
 ## Estrutura
 
 ```
@@ -85,13 +80,3 @@ No frontend, antes de buildar a imagem de produção, ajuste a URL real da API e
 - `POST /api/doacoes` (doador autenticado)
 - `GET /api/doacoes/minhas` (doador), `GET /api/doacoes/recebidas` (instituição)
 - `PATCH /api/doacoes/{id}/status` (instituição autenticada)
-
-## Próximos passos sugeridos pro grupo
-
-- Dividir entre os integrantes: autenticação/telas de conta, lista e filtro de necessidades,
-  fluxo de agendamento, painel da instituição, estilização/responsividade.
-- Preencher as entregas do trabalho (documento Word, apresentação, relatório final, vídeo
-  pitch) com a descrição do problema, a pesquisa sobre o ODS 3 e prints do sistema funcionando.
-- Revisar o texto deste README antes de entregar — ele serve de base para a parte técnica do
-  documento, mas as entregas (nomes, RAs, pesquisa acadêmica) precisam ser preenchidas pelo
-  grupo.
