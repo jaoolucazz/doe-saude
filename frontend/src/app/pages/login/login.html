@@ -1,0 +1,32 @@
+<section class="pagina" style="max-width: 440px;">
+  <p-card header="Entrar">
+    <form class="formulario" [formGroup]="formulario" (ngSubmit)="enviar()">
+      <div class="campo">
+        <label for="email">E-mail</label>
+        <input pInputText id="email" type="email" formControlName="email" autocomplete="email" class="campo-full" />
+      </div>
+
+      <div class="campo">
+        <label for="senha">Senha</label>
+        <input pInputText id="senha" type="password" formControlName="senha" autocomplete="current-password" class="campo-full" />
+      </div>
+
+      @if (mensagemErro()) {
+        <p-message severity="error" [text]="mensagemErro()!" />
+      }
+
+      <p-button type="submit" label="Entrar" icon="pi pi-sign-in" [loading]="enviando()" styleClass="campo-full" />
+    </form>
+
+    <div class="separador-ou"><span>ou</span></div>
+
+    <p-button
+      label="Ainda não tem conta? Cadastre-se"
+      icon="pi pi-user-plus"
+      [outlined]="true"
+      severity="secondary"
+      routerLink="/registro"
+      styleClass="campo-full"
+    />
+  </p-card>
+</section>

@@ -1,0 +1,86 @@
+<section class="pagina">
+  <h1>Minha área</h1>
+
+  @if (carregandoPerfil()) {
+    <div class="carregando-central">
+      <p-progress-spinner strokeWidth="4" styleClass="spinner-pequeno" />
+    </div>
+  } @else if (perfil(); as p) {
+    <p-card styleClass="cartao-perfil">
+      <div class="cartao-perfil__linha">
+        @if (p.fotoPerfilUrl) {
+          <img [src]="urlFoto(p.fotoPerfilUrl)" alt="Foto de {{ p.nome }}" class="cartao-perfil__foto" />
+        } @else {
+          <div class="cartao-perfil__avatar">
+            <i class="pi pi-user"></i>
+          </div>
+        }
+        <div style="flex: 1;">
+          <h3 style="margin: 0 0 0.25rem;">{{ p.nome }}</h3>
+          <p style="margin: 0; color: var(--p-text-muted-color);">{{ p.email }}</p>
+        </div>
+        <p-fileupload
+          mode="basic"
+          chooseLabel="Trocar foto"
+          chooseIcon="pi pi-camera"
+          accept="image/png,image/jpeg,image/webp"
+          [auto]="true"
+          [customUpload]="false"
+          [disabled]="enviandoFoto()"
+          (onSelect)="selecionarFoto($event)"
+        />
+      </div>
+
+      <div class="cartao-perfil__dados">
+        @if (p.telefone) {
+          <div><i class="pi pi-phone"></i> {{ p.telefone }}</div>
+        }
+        @if (p.tipoSanguineo) {
+          <div><i class="pi pi-heart-fill"></i> Tipo sanguíneo: {{ rotuloTipoSanguineo(p.tipoSanguineo) }}</div>
+        }
+      </div>
+    </p-card>
+  }
+
+  <h2>Minhas doações</h2>
+
+  @if (carregandoDoacoes()) {
+    <div class="carregando-central">
+      <p-progress-spinner strokeWidth="4" styleClass="spinner-pequeno" />
+    </div>
+  } @else if (doacoes().length === 0) {
+    <div class="estado-vazio">
+      <i class="pi pi-inbox"></i>
+      <p>Você ainda não agendou nenhuma doação.</p>
+    </div>
+  } @else {
+    <div class="grade-necessidades">
+      @for (doacao of doacoes(); track doacao.id) {
+        <p-card styleClass="cartao-necessidade">
+          <p-tag [value]="rotulo(doacao.status)" [severity]="severidade(doacao.status)" />
+          <h3 style="margin: 0.5rem 0 0.25rem;">{{ doacao.necessidadeDescricao }}</h3>
+          <div class="cartao-necessidade__rodape">
+            <small><i class="pi pi-box"></i> Quantidade doada: {{ doacao.quantidade }}</small>
+            <small><i class="pi pi-calendar"></i> Data agendada: {{ doacao.dataAgendada }}</small>
+            @if (doacao.observacao) {
+              <small>{{ doacao.observacao }}</small>
+            }
+          </div>
+
+          @if (doacao.status === 'AGENDADA') {
+            <div class="acoes-cartao">
+              <p-button
+                label="Cancelar doação"
+                severity="danger"
+                [outlined]="true"
+                size="small"
+                [loading]="cancelandoId() === doacao.id"
+                (onClick)="cancelar(doacao.id)"
+              />
+            </div>
+          }
+        </p-card>
+      }
+    </div>
+  }
+</section>

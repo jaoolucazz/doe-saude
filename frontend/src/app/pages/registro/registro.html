@@ -1,0 +1,80 @@
+<section class="pagina" style="max-width: 560px;">
+  <p-card header="Criar conta">
+    <form class="formulario" [formGroup]="formulario" (ngSubmit)="enviar()">
+      <div class="campo">
+        <label for="tipo">Eu sou</label>
+        <p-select
+          inputId="tipo"
+          formControlName="tipo"
+          [options]="tiposConta"
+          optionLabel="rotulo"
+          optionValue="valor"
+          styleClass="campo-full"
+        />
+      </div>
+
+      <div class="campo">
+        <label for="nome">Nome (ou nome da empresa, se for o caso)</label>
+        <input pInputText id="nome" type="text" formControlName="nome" class="campo-full" />
+      </div>
+
+      <div class="campo">
+        <label for="email">E-mail</label>
+        <input pInputText id="email" type="email" formControlName="email" autocomplete="email" class="campo-full" />
+      </div>
+
+      <div class="campo">
+        <label for="senha">Senha</label>
+        <input pInputText id="senha" type="password" formControlName="senha" autocomplete="new-password" class="campo-full" />
+      </div>
+
+      <div class="campo">
+        <label for="telefone">Telefone</label>
+        <input pInputText id="telefone" type="tel" formControlName="telefone" class="campo-full" />
+      </div>
+
+      @if (ehDoador) {
+        <div class="campo">
+          <label for="tipoSanguineo">Tipo sanguíneo (preencha só se for doar sangue)</label>
+          <p-select
+            inputId="tipoSanguineo"
+            formControlName="tipoSanguineo"
+            [options]="tiposSanguineos"
+            optionLabel="rotulo"
+            optionValue="valor"
+            placeholder="Selecione..."
+            [showClear]="true"
+            styleClass="campo-full"
+          />
+        </div>
+      } @else {
+        <div class="campo">
+          <label for="nomeInstituicao">Nome da instituição</label>
+          <input pInputText id="nomeInstituicao" type="text" formControlName="nomeInstituicao" class="campo-full" />
+        </div>
+
+        <div class="campo">
+          <label for="endereco">Endereço</label>
+          <input pInputText id="endereco" type="text" formControlName="endereco" class="campo-full" />
+        </div>
+      }
+
+      @if (mensagemErro()) {
+        <p-message severity="error" [text]="mensagemErro()!" />
+      }
+
+      <p-button type="submit" label="Criar conta" icon="pi pi-user-plus" [loading]="enviando()" styleClass="campo-full" />
+    </form>
+
+    <div class="separador-ou"><span>ou</span></div>
+
+    <p-button
+      label="Já tem conta? Entrar"
+      icon="pi pi-sign-in"
+      [outlined]="true"
+      severity="secondary"
+      routerLink="/login"
+      styleClass="campo-full"
+    />
+  </p-card>
+</section>

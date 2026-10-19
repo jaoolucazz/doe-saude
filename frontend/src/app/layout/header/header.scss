@@ -1,0 +1,80 @@
+:host {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  ::ng-deep .app-header {
+    background: var(--p-primary-color);
+    border: none;
+    border-radius: 0;
+    padding: 0.85rem 2rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.app-header__marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--p-primary-contrast-color);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+
+  i {
+    font-size: 1.2rem;
+  }
+}
+
+.app-header__acoes {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.app-header__usuario {
+  color: var(--p-primary-contrast-color);
+  opacity: 0.9;
+  font-size: 0.9rem;
+  margin: 0 0.4rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  :host ::ng-deep .app-header {
+    padding: 0.65rem 1rem;
+
+    .p-toolbar-start,
+    .p-toolbar-end {
+      flex-wrap: wrap;
+    }
+
+    .p-toolbar-end {
+      justify-content: flex-end;
+      gap: 0.25rem;
+      row-gap: 0.4rem;
+    }
+  }
+
+  .app-header__marca {
+    font-size: 1.15rem;
+  }
+
+  .app-header__usuario {
+    display: none;
+  }
+
+  .app-header__acoes {
+    gap: 0.2rem;
+
+    ::ng-deep .p-button-label {
+      display: none;
+    }
+
+    ::ng-deep .p-button {
+      padding: 0.5rem;
+    }
+  }
+}

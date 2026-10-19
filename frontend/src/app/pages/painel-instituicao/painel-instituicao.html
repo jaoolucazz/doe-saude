@@ -1,0 +1,234 @@
+<section class="pagina">
+  <h1>Painel da instituição</h1>
+
+  @if (carregandoPerfil()) {
+    <div class="carregando-central">
+      <p-progress-spinner strokeWidth="4" styleClass="spinner-pequeno" />
+    </div>
+  } @else if (perfil(); as p) {
+    <p-card styleClass="cartao-perfil">
+      <div class="cartao-perfil__linha">
+        @if (p.fotoPerfilUrl) {
+          <img [src]="urlFoto(p.fotoPerfilUrl)" alt="Foto de {{ p.nome }}" class="cartao-perfil__foto" />
+        } @else {
+          <div class="cartao-perfil__avatar">
+            <i class="pi pi-building"></i>
+          </div>
+        }
+        <div style="flex: 1;">
+          <h3 style="margin: 0 0 0.25rem;">{{ p.nome }}</h3>
+          <p style="margin: 0; color: var(--p-text-muted-color);">{{ p.email }}</p>
+        </div>
+        <p-fileupload
+          mode="basic"
+          chooseLabel="Trocar foto"
+          chooseIcon="pi pi-camera"
+          accept="image/png,image/jpeg,image/webp"
+          [auto]="true"
+          [customUpload]="false"
+          [disabled]="enviandoFotoPerfil()"
+          (onSelect)="selecionarFotoPerfil($event)"
+        />
+      </div>
+
+      <div class="cartao-perfil__dados">
+        @if (p.telefone) {
+          <div><i class="pi pi-phone"></i> {{ p.telefone }}</div>
+        }
+        @if (p.endereco) {
+          <div><i class="pi pi-map-marker"></i> {{ p.endereco }}</div>
+        }
+      </div>
+    </p-card>
+  }
+
+  <p-card header="Nova necessidade" styleClass="cartao-formulario">
+    <form class="formulario-grade" [formGroup]="formulario" (ngSubmit)="criarNecessidade()">
+      <div class="campo">
+        <label for="tipo"><i class="pi pi-box"></i> O que vocês precisam</label>
+        <p-select
+          inputId="tipo"
+          formControlName="tipo"
+          [options]="tiposItem"
+          optionLabel="rotulo"
+          optionValue="valor"
+          styleClass="campo-full"
+        />
+      </div>
+
+      @if (ehSangue) {
+        <div class="campo">
+          <label for="tipoSanguineo"><i class="pi pi-heart-fill"></i> Tipo sanguíneo necessário</label>
+          <p-select
+            inputId="tipoSanguineo"
+            formControlName="tipoSanguineo"
+            [options]="tiposSanguineos"
+            optionLabel="rotulo"
+            optionValue="valor"
+            placeholder="Selecione..."
+            styleClass="campo-full"
+          />
+        </div>
+      } @else {
+        <div class="campo">
+          <label for="nomeItem">Nome do item</label>
+          <input pInputText id="nomeItem" type="text" formControlName="nomeItem" class="campo-full" />
+        </div>
+      }
+
+      <div class="campo campo--linha-toda">
+        <label for="descricao">Descrição do pedido</label>
+        <textarea pTextarea id="descricao" rows="3" formControlName="descricao" class="campo-full"></textarea>
+      </div>
+
+      <div class="campo">
+        <label for="publicoAlvo"><i class="pi pi-users"></i> Público-alvo</label>
+        <p-select
+          inputId="publicoAlvo"
+          formControlName="publicoAlvo"
+          [options]="publicosAlvo"
+          optionLabel="rotulo"
+          optionValue="valor"
+          styleClass="campo-full"
+        />
+      </div>
+
+      <div class="campo">
+        <label for="tipoBeneficiario">Essa doação é para...</label>
+        <p-select
+          inputId="tipoBeneficiario"
+          formControlName="tipoBeneficiario"
+          [options]="opcoesBeneficiario"
+          optionLabel="rotulo"
+          optionValue="valor"
+          styleClass="campo-full"
+        />
+      </div>
+
+      <div class="campo">
+        <label for="nomeBeneficiario">
+          {{ ehPessoa ? 'Nome da pessoa' : 'Nome do grupo/instituição beneficiada' }}
+        </label>
+        <input pInputText id="nomeBeneficiario" type="text" formControlName="nomeBeneficiario" class="campo-full" />
+      </div>
+
+      <div class="campo">
+        <label for="quantidade"><i class="pi pi-hashtag"></i> Quantidade necessária</label>
+        <p-inputnumber inputId="quantidade" formControlName="quantidade" styleClass="campo-full" />
+      </div>
+
+      <div class="campo campo--linha-toda">
+        <label for="descricaoBeneficiario">
+          {{ ehPessoa ? 'Conte um pouco sobre a pessoa' : 'Conte um pouco sobre o grupo' }}
+        </label>
+        <textarea pTextarea id="descricaoBeneficiario" rows="2" formControlName="descricaoBeneficiario" class="campo-full"></textarea>
+      </div>
+
+      <div class="campo">
+        <label><i class="pi pi-image"></i> Foto (opcional)</label>
+        <p-fileupload
+          mode="basic"
+          chooseLabel="Escolher foto"
+          accept="image/png,image/jpeg,image/webp"
+          [auto]="true"
+          [customUpload]="false"
+          (onSelect)="selecionarFoto($event)"
+        />
+        @if (enviandoFoto()) {
+          <small>Enviando foto...</small>
+        }
+        @if (fotoUrl()) {
+          <small>Foto enviada ✓</small>
+        }
+      </div>
+
+      <div class="campo">
+        <label for="urgencia"><i class="pi pi-exclamation-triangle"></i> Urgência</label>
+        <p-select
+          inputId="urgencia"
+          formControlName="urgencia"
+          [options]="opcoesUrgencia"
+          optionLabel="rotulo"
+          optionValue="valor"
+          styleClass="campo-full"
+        />
+      </div>
+
+      @if (mensagemErro()) {
+        <div class="campo--linha-toda">
+          <p-message severity="error" [text]="mensagemErro()!" styleClass="campo-full" />
+        </div>
+      }
+
+      <div class="campo--linha-toda">
+        <p-button type="submit" label="Cadastrar necessidade" [loading]="enviando() || enviandoFoto()" styleClass="campo-full" />
+      </div>
+    </form>
+  </p-card>
+
+  <h2>Minhas necessidades cadastradas</h2>
+  @if (carregandoNecessidades()) {
+    <div class="carregando-central">
+      <p-progress-spinner strokeWidth="4" styleClass="spinner-pequeno" />
+    </div>
+  } @else if (minhasNecessidades().length === 0) {
+    <p>Nenhuma necessidade cadastrada ainda.</p>
+  } @else {
+    <div class="grade-necessidades">
+      @for (n of minhasNecessidades(); track n.id) {
+        <p-card styleClass="cartao-necessidade">
+          <p-tag [value]="n.status" [severity]="severidadeStatusNecessidade(n.status)" />
+          <h3 style="margin: 0.5rem 0 0.25rem;">{{ n.tipo === 'SANGUE' ? ('Sangue ' + (n.tipoSanguineo ?? '')) : n.nomeItem }}</h3>
+          <p class="cartao-necessidade__descricao">{{ n.descricao }}</p>
+          <div class="cartao-necessidade__rodape">
+            <small>
+              <i [class]="n.tipoBeneficiario === 'PESSOA' ? 'pi pi-user' : 'pi pi-users'"></i>
+              para {{ n.nomeBeneficiario }} · urgência: {{ n.urgencia }}
+            </small>
+            <p-progressbar [value]="percentual(n)" [showValue]="false" styleClass="campo-full" />
+            <small>{{ n.quantidadeAtendida }} de {{ n.quantidade }} atendido · {{ percentual(n) }}%</small>
+          </div>
+          @if (n.status === 'ABERTA') {
+            <div class="acoes-cartao">
+              <p-button label="Cancelar" severity="secondary" [outlined]="true" size="small" (onClick)="cancelarNecessidade(n.id)" />
+            </div>
+          }
+        </p-card>
+      }
+    </div>
+  }
+
+  <h2>Doações agendadas por doadores</h2>
+  @if (carregandoDoacoes()) {
+    <div class="carregando-central">
+      <p-progress-spinner strokeWidth="4" styleClass="spinner-pequeno" />
+    </div>
+  } @else if (doacoesRecebidas().length === 0) {
+    <p>Nenhuma doação agendada ainda.</p>
+  } @else {
+    <div class="grade-necessidades">
+      @for (d of doacoesRecebidas(); track d.id) {
+        <p-card>
+          <p-tag
+            [value]="d.status === 'AGENDADA' ? 'Aguardando' : (d.status === 'RECEBIDA' ? 'Recebida' : 'Não recebida')"
+            [severity]="d.status === 'RECEBIDA' ? 'success' : (d.status === 'NAO_RECEBIDA' ? 'danger' : 'info')"
+          />
+          <h3 style="margin: 0.5rem 0 0.25rem;">{{ d.doadorNome }}</h3>
+          <p style="margin: 0 0 0.25rem;">{{ d.necessidadeDescricao }}</p>
+          <small>quantidade: {{ d.quantidade }} · data agendada: {{ d.dataAgendada }}</small>
+          @if (d.observacao) {
+            <p style="margin: 0.5rem 0 0;">{{ d.observacao }}</p>
+          }
+
+          @if (d.status === 'AGENDADA') {
+            <div class="acoes-cartao">
+              <span style="align-self: center; font-weight: 600;">A doação foi recebida?</span>
+              <p-button label="Sim" severity="success" size="small" (onClick)="atualizarStatusDoacao(d.id, 'RECEBIDA')" />
+              <p-button label="Não" severity="danger" [outlined]="true" size="small" (onClick)="atualizarStatusDoacao(d.id, 'NAO_RECEBIDA')" />
+            </div>
+          }
+        </p-card>
+      }
+    </div>
+  }
+</section>

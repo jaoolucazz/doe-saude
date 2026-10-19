@@ -1,0 +1,95 @@
+<section class="pagina" style="max-width: 760px;">
+  @if (carregando()) {
+    <div class="carregando-central">
+      <p-progress-spinner strokeWidth="4" styleClass="spinner-pequeno" />
+    </div>
+  } @else if (!necessidade()) {
+    <p>Necessidade não encontrada.</p>
+  } @else {
+    @let n = necessidade()!;
+
+    <p-tag [value]="n.urgencia" [severity]="severidadeUrgencia(n.urgencia)" />
+    <h1 style="margin: 0.6rem 0 0.25rem;">
+      {{ n.tipo === 'SANGUE' ? ('Doação de sangue ' + (n.tipoSanguineo ?? '')) : ('Item: ' + n.nomeItem) }}
+    </h1>
+    <p style="font-weight: 600;"><i class="pi pi-building"></i> {{ n.nomeInstituicao }}</p>
+    <p>{{ n.descricao }}</p>
+
+    <p-card>
+      <div class="detalhe-beneficiario">
+        <div class="detalhe-beneficiario__texto">
+          <h3 style="margin-top: 0;">
+            <i [class]="n.tipoBeneficiario === 'PESSOA' ? 'pi pi-user' : 'pi pi-users'"></i>
+            Para {{ n.nomeBeneficiario }}
+            ({{ n.tipoBeneficiario === 'PESSOA' ? 'pessoa' : 'grupo/instituição' }})
+          </h3>
+          @if (n.descricaoBeneficiario) {
+            <p>{{ n.descricaoBeneficiario }}</p>
+          }
+          <p style="margin-bottom: 0;">Público-alvo: {{ n.publicoAlvo }}</p>
+        </div>
+
+        @if (n.fotoBeneficiarioUrl) {
+          <img
+            [src]="urlFoto(n.fotoBeneficiarioUrl)"
+            alt="Foto de {{ n.nomeBeneficiario }}"
+            class="foto-beneficiario foto-beneficiario--grande"
+          />
+        } @else {
+          <div class="foto-beneficiario foto-beneficiario--grande foto-beneficiario--placeholder">
+            <i [class]="n.tipoBeneficiario === 'PESSOA' ? 'pi pi-user' : 'pi pi-users'"></i>
+          </div>
+        }
+      </div>
+    </p-card>
+
+    <div style="margin: 1.5rem 0;">
+      <p-progressbar [value]="percentual(n)" [showValue]="false" />
+      <p style="margin-top: 0.5rem;">
+        <strong>{{ n.quantidadeAtendida }} de {{ n.quantidade }}</strong> atendido ({{ percentual(n) }}%) ·
+        faltam {{ faltam(n) }}
+      </p>
+    </div>
+
+    @if (n.status !== 'ABERTA') {
+      <p-message severity="warn" text="Esta necessidade não está mais aberta para novas doações." />
+    } @else if (agendadoComSucesso()) {
+      <p-card>
+        <p><i class="pi pi-check-circle" style="color: var(--p-green-500);"></i> Doação agendada com sucesso! A instituição vai confirmar o recebimento.</p>
+        <p-button label="Ver minhas doações" routerLink="/minhas-doacoes" />
+      </p-card>
+    } @else if (!auth.autenticado()) {
+      <p-message severity="info">
+        <a (click)="irParaLogin()" style="cursor: pointer;">Entre</a> ou
+        <a (click)="irParaRegistro()" style="cursor: pointer;">cadastre-se como doador</a> para agendar esta doação.
+      </p-message>
+    } @else if (!auth.ehDoador()) {
+      <p-message severity="info" text="Somente contas de doador podem agendar uma doação." />
+    } @else {
+      <p-card header="Agendar doação">
+        <form class="formulario" [formGroup]="formulario" (ngSubmit)="agendar()">
+          <div class="campo">
+            <label for="quantidade"><i class="pi pi-box"></i> Quantidade que você vai doar</label>
+            <p-inputnumber inputId="quantidade" formControlName="quantidade" styleClass="campo-full" />
+          </div>
+
+          <div class="campo">
+            <label for="dataAgendada"><i class="pi pi-calendar"></i> Data que você pode doar</label>
+            <input pInputText id="dataAgendada" type="date" formControlName="dataAgendada" class="campo-full" />
+          </div>
+
+          <div class="campo">
+            <label for="observacao">Observação (opcional)</label>
+            <textarea pTextarea id="observacao" rows="3" formControlName="observacao" class="campo-full"></textarea>
+          </div>
+
+          @if (mensagemErro()) {
+            <p-message severity="error" [text]="mensagemErro()!" />
+          }
+
+          <p-button type="submit" label="Agendar doação" [loading]="enviando()" styleClass="campo-full" />
+        </form>
+      </p-card>
+    }
+  }
+</section>

@@ -1,0 +1,28 @@
+<p-toolbar styleClass="app-header">
+  <ng-template #start>
+    <a routerLink="/" class="app-header__marca">
+      <i class="pi pi-heart-fill"></i>
+      DoeSaúde
+    </a>
+  </ng-template>
+
+  <ng-template #end>
+    <div class="app-header__acoes">
+      <p-button label="Necessidades" icon="pi pi-list" [text]="true" severity="contrast" routerLink="/" />
+
+      @if (auth.autenticado()) {
+        @if (auth.ehDoador()) {
+          <p-button label="Minhas doações" icon="pi pi-gift" [text]="true" severity="contrast" routerLink="/minhas-doacoes" />
+        }
+        @if (auth.ehInstituicao()) {
+          <p-button label="Minha instituição" icon="pi pi-building" [text]="true" severity="contrast" routerLink="/painel-instituicao" />
+        }
+        <span class="app-header__usuario">Olá, {{ auth.usuario()?.nome }}</span>
+        <p-button label="Sair" icon="pi pi-sign-out" [outlined]="true" severity="contrast" (onClick)="sair()" />
+      } @else {
+        <p-button label="Entrar" icon="pi pi-sign-in" [text]="true" severity="contrast" routerLink="/login" />
+        <p-button label="Cadastrar" icon="pi pi-user-plus" severity="contrast" routerLink="/registro" />
+      }
+    </div>
+  </ng-template>
+</p-toolbar>
