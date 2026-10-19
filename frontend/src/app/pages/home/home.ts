@@ -1,8 +1,9 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { MessageModule } from 'primeng/message';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SelectModule } from 'primeng/select';
@@ -16,12 +17,20 @@ import { atrasoDev } from '../../core/utils/atraso-dev';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [FormsModule, CardModule, SelectModule, TagModule, ButtonModule, ProgressBarModule, ProgressSpinnerModule],
+  imports: [FormsModule, CardModule, SelectModule, TagModule, ButtonModule, ProgressBarModule, ProgressSpinnerModule, MessageModule],
   templateUrl: './home.html'
 })
 export class Home {
   private readonly necessidadeService = inject(NecessidadeService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+
+  private static readonly MENSAGENS_MOTIVO: Record<string, string> = {
+    'apenas-doador': 'Essa área é só para contas de doador.',
+    'apenas-instituicao': 'Essa área é só para contas de instituição.'
+  };
+
+  protected readonly mensagemMotivo = signal<string | null>(null);
 
   protected readonly opcoesTipo = [
     { valor: '', rotulo: 'Todos os tipos' },
@@ -48,6 +57,10 @@ export class Home {
 
   constructor() {
     this.buscar();
+    const motivo = this.route.snapshot.queryParamMap.get('motivo');
+    if (motivo) {
+      this.mensagemMotivo.set(Home.MENSAGENS_MOTIVO[motivo] ?? null);
+    }
   }
 
   severidadeUrgencia(urgencia: Urgencia): 'danger' | 'warn' | 'success' {

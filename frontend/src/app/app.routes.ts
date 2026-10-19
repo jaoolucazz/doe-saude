@@ -1,9 +1,15 @@
 import { Routes } from '@angular/router';
-import { doadorGuard, instituicaoGuard, authGuard } from './core/guards/auth.guard';
+import { authGuard, doadorGuard, instituicaoGuard, landingGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
+    canActivate: [landingGuard],
+    loadComponent: () => import('./pages/home/home').then((m) => m.Home)
+  },
+  {
+    path: 'necessidades',
     loadComponent: () => import('./pages/home/home').then((m) => m.Home)
   },
   {

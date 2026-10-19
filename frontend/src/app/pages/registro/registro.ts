@@ -79,7 +79,7 @@ export class Registro {
       .subscribe({
         next: () => {
           this.enviando.set(false);
-          this.router.navigate(['/']);
+          this.router.navigate(['/necessidades']);
         },
         error: (erro: HttpErrorResponse) => {
           this.enviando.set(false);

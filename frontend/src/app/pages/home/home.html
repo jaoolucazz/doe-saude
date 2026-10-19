@@ -25,6 +25,12 @@
 </section>
 
 <section class="pagina">
+  @if (mensagemMotivo()) {
+    <div style="margin-bottom: 1.25rem;">
+      <p-message severity="warn" [text]="mensagemMotivo()!" styleClass="campo-full" />
+    </div>
+  }
+
   <p-card styleClass="filtro-cartao">
     <div class="filtro-grade">
       <div class="campo">

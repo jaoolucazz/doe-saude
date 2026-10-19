@@ -1,5 +1,11 @@
 <section class="pagina" style="max-width: 440px;">
   <p-card header="Entrar">
+    @if (mensagemMotivo()) {
+      <div style="margin-bottom: 1rem;">
+        <p-message severity="info" [text]="mensagemMotivo()!" styleClass="campo-full" />
+      </div>
+    }
+
     <form class="formulario" [formGroup]="formulario" (ngSubmit)="enviar()">
       <div class="campo">
         <label for="email">E-mail</label>
@@ -34,7 +40,7 @@
       icon="pi pi-list"
       [text]="true"
       severity="secondary"
-      routerLink="/"
+      routerLink="/necessidades"
       styleClass="campo-full"
     />
   </p-card>
