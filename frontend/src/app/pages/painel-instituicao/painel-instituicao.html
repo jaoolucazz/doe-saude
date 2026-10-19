@@ -16,8 +16,11 @@
           </div>
         }
         <div style="flex: 1;">
-          <h3 style="margin: 0 0 0.25rem;">{{ p.nome }}</h3>
+          <h3 style="margin: 0 0 0.25rem;">{{ p.nomeInstituicao || p.nome }}</h3>
           <p style="margin: 0; color: var(--p-text-muted-color);">{{ p.email }}</p>
+          @if (p.nomeInstituicao) {
+            <small style="color: var(--p-text-muted-color);"><i class="pi pi-user"></i> Responsável: {{ p.nome }}</small>
+          }
         </div>
         <p-fileupload
           mode="basic"
