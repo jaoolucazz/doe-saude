@@ -58,7 +58,7 @@
 
       @if (ehSangue) {
         <div class="campo">
-          <label for="tipoSanguineo"><i class="pi pi-heart-fill"></i> Tipo sanguíneo necessário</label>
+          <label for="tipoSanguineo"><i class="pi pi-heart-fill"></i> Tipo sanguíneo necessário <span class="campo__obrigatorio">*</span></label>
           <p-select
             inputId="tipoSanguineo"
             formControlName="tipoSanguineo"
@@ -68,17 +68,26 @@
             placeholder="Selecione..."
             styleClass="campo-full"
           />
+          @if (formulario.controls.tipoSanguineo.invalid && formulario.controls.tipoSanguineo.touched) {
+            <small class="campo__erro">Selecione o tipo sanguíneo.</small>
+          }
         </div>
       } @else {
         <div class="campo">
-          <label for="nomeItem">Nome do item</label>
+          <label for="nomeItem">Nome do item <span class="campo__obrigatorio">*</span></label>
           <input pInputText id="nomeItem" type="text" formControlName="nomeItem" class="campo-full" />
+          @if (formulario.controls.nomeItem.invalid && formulario.controls.nomeItem.touched) {
+            <small class="campo__erro">Informe o nome do item.</small>
+          }
         </div>
       }
 
       <div class="campo campo--linha-toda">
-        <label for="descricao">Descrição do pedido</label>
+        <label for="descricao">Descrição do pedido <span class="campo__obrigatorio">*</span></label>
         <textarea pTextarea id="descricao" rows="3" formControlName="descricao" class="campo-full"></textarea>
+        @if (formulario.controls.descricao.invalid && formulario.controls.descricao.touched) {
+          <small class="campo__erro">Descreva o que vocês precisam.</small>
+        }
       </div>
 
       <div class="campo">
@@ -107,14 +116,20 @@
 
       <div class="campo">
         <label for="nomeBeneficiario">
-          {{ ehPessoa ? 'Nome da pessoa' : 'Nome do grupo/instituição beneficiada' }}
+          {{ ehPessoa ? 'Nome da pessoa' : 'Nome do grupo/instituição beneficiada' }} <span class="campo__obrigatorio">*</span>
         </label>
         <input pInputText id="nomeBeneficiario" type="text" formControlName="nomeBeneficiario" class="campo-full" />
+        @if (formulario.controls.nomeBeneficiario.invalid && formulario.controls.nomeBeneficiario.touched) {
+          <small class="campo__erro">Informe esse nome.</small>
+        }
       </div>
 
       <div class="campo">
-        <label for="quantidade"><i class="pi pi-hashtag"></i> Quantidade necessária</label>
+        <label for="quantidade"><i class="pi pi-hashtag"></i> Quantidade necessária <span class="campo__obrigatorio">*</span></label>
         <p-inputnumber inputId="quantidade" formControlName="quantidade" styleClass="campo-full" />
+        @if (formulario.controls.quantidade.invalid && formulario.controls.quantidade.touched) {
+          <small class="campo__erro">Informe uma quantidade válida (mínimo 1).</small>
+        }
       </div>
 
       <div class="campo campo--linha-toda">

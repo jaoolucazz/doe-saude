@@ -50,6 +50,18 @@ export class Registro {
     endereco: ['']
   });
 
+  constructor() {
+    this.formulario.controls.tipo.valueChanges.subscribe((tipo) => {
+      const nomeInstituicao = this.formulario.controls.nomeInstituicao;
+      if (tipo === 'INSTITUICAO') {
+        nomeInstituicao.setValidators([Validators.required]);
+      } else {
+        nomeInstituicao.clearValidators();
+      }
+      nomeInstituicao.updateValueAndValidity();
+    });
+  }
+
   get ehDoador(): boolean {
     return this.formulario.controls.tipo.value === 'DOADOR';
   }

@@ -91,6 +91,15 @@ body {
   width: 100%;
 }
 
+.campo__obrigatorio {
+  color: var(--p-red-500);
+}
+
+.campo__erro {
+  color: var(--p-red-500);
+  font-size: 0.8rem;
+}
+
 .lista-cartoes {
   display: flex;
   flex-direction: column;

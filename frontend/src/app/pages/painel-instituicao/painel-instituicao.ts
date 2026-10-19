@@ -85,7 +85,7 @@ export class PainelInstituicao {
   protected readonly formulario = this.fb.nonNullable.group({
     tipo: ['SANGUE' as TipoNecessidade, [Validators.required]],
     descricao: ['', [Validators.required]],
-    tipoSanguineo: [''],
+    tipoSanguineo: ['', [Validators.required]],
     nomeItem: [''],
     publicoAlvo: ['ADULTO', [Validators.required]],
     tipoBeneficiario: ['GRUPO' as TipoBeneficiario, [Validators.required]],
@@ -99,6 +99,20 @@ export class PainelInstituicao {
     this.carregarNecessidades();
     this.carregarDoacoes();
     this.carregarPerfil();
+
+    this.formulario.controls.tipo.valueChanges.subscribe((tipo) => {
+      const tipoSanguineo = this.formulario.controls.tipoSanguineo;
+      const nomeItem = this.formulario.controls.nomeItem;
+      if (tipo === 'SANGUE') {
+        tipoSanguineo.setValidators([Validators.required]);
+        nomeItem.clearValidators();
+      } else {
+        nomeItem.setValidators([Validators.required]);
+        tipoSanguineo.clearValidators();
+      }
+      tipoSanguineo.updateValueAndValidity();
+      nomeItem.updateValueAndValidity();
+    });
   }
 
   get ehSangue(): boolean {

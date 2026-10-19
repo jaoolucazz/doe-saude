@@ -14,18 +14,31 @@
       </div>
 
       <div class="campo">
-        <label for="nome">Nome (ou nome da empresa, se for o caso)</label>
+        <label for="nome">Nome (ou nome da empresa, se for o caso) <span class="campo__obrigatorio">*</span></label>
         <input pInputText id="nome" type="text" formControlName="nome" class="campo-full" />
+        @if (formulario.controls.nome.invalid && formulario.controls.nome.touched) {
+          <small class="campo__erro">Informe o nome.</small>
+        }
       </div>
 
       <div class="campo">
-        <label for="email">E-mail</label>
+        <label for="email">E-mail <span class="campo__obrigatorio">*</span></label>
         <input pInputText id="email" type="email" formControlName="email" autocomplete="email" class="campo-full" />
+        @if (formulario.controls.email.invalid && formulario.controls.email.touched) {
+          <small class="campo__erro">
+            {{ formulario.controls.email.errors?.['required'] ? 'Informe o e-mail.' : 'Informe um e-mail válido.' }}
+          </small>
+        }
       </div>
 
       <div class="campo">
-        <label for="senha">Senha</label>
+        <label for="senha">Senha <span class="campo__obrigatorio">*</span></label>
         <input pInputText id="senha" type="password" formControlName="senha" autocomplete="new-password" class="campo-full" />
+        @if (formulario.controls.senha.invalid && formulario.controls.senha.touched) {
+          <small class="campo__erro">
+            {{ formulario.controls.senha.errors?.['required'] ? 'Informe a senha.' : 'A senha precisa ter no mínimo 6 caracteres.' }}
+          </small>
+        }
       </div>
 
       <div class="campo">
@@ -49,8 +62,11 @@
         </div>
       } @else {
         <div class="campo">
-          <label for="nomeInstituicao">Nome da instituição</label>
+          <label for="nomeInstituicao">Nome da instituição <span class="campo__obrigatorio">*</span></label>
           <input pInputText id="nomeInstituicao" type="text" formControlName="nomeInstituicao" class="campo-full" />
+          @if (formulario.controls.nomeInstituicao.invalid && formulario.controls.nomeInstituicao.touched) {
+            <small class="campo__erro">Informe o nome da instituição.</small>
+          }
         </div>
 
         <div class="campo">

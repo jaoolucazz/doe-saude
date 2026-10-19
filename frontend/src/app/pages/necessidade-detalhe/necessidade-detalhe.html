@@ -69,13 +69,19 @@
       <p-card header="Agendar doação">
         <form class="formulario" [formGroup]="formulario" (ngSubmit)="agendar()">
           <div class="campo">
-            <label for="quantidade"><i class="pi pi-box"></i> Quantidade que você vai doar</label>
+            <label for="quantidade"><i class="pi pi-box"></i> Quantidade que você vai doar <span class="campo__obrigatorio">*</span></label>
             <p-inputnumber inputId="quantidade" formControlName="quantidade" styleClass="campo-full" />
+            @if (formulario.controls.quantidade.invalid && formulario.controls.quantidade.touched) {
+              <small class="campo__erro">Informe uma quantidade válida (mínimo 1).</small>
+            }
           </div>
 
           <div class="campo">
-            <label for="dataAgendada"><i class="pi pi-calendar"></i> Data que você pode doar</label>
+            <label for="dataAgendada"><i class="pi pi-calendar"></i> Data que você pode doar <span class="campo__obrigatorio">*</span></label>
             <input pInputText id="dataAgendada" type="date" formControlName="dataAgendada" class="campo-full" />
+            @if (formulario.controls.dataAgendada.invalid && formulario.controls.dataAgendada.touched) {
+              <small class="campo__erro">Escolha uma data.</small>
+            }
           </div>
 
           <div class="campo">
