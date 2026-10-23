@@ -6,6 +6,14 @@ Sistema web que conecta **doadores de sangue e medicamentos** a **instituições
 (hospitais, hemocentros, ONGs) que precisam desses itens, associado ao
 **ODS 3 — Saúde e Bem-Estar**.
 
+**Integrantes do Grupo:**
+João Lucas Torquato
+Matheus Rocha Nogueira 
+André Luiz Gusmão Carneiro De Toledo 
+Julia Andrade Silva 
+Pedro Ribeiro Linhares
+Rosália Pereira Santos
+
 ## Como funciona
 
 - Instituições cadastram **necessidades** (de sangue, com tipo sanguíneo específico, ou de
