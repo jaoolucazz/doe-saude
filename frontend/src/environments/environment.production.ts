@@ -1,7 +1,6 @@
-// O frontend vai ficar em https://tr4tech.com/doesaude/ (ver baseHref em angular.json).
-// O backend (API Spring Boot) fica mais simples publicado num subdomínio próprio no
-// EasyPanel (ex: api-doesaude.tr4tech.com), em vez de dividir caminho com o frontend
-// no mesmo domínio. Troque a URL abaixo pelo endereço real assim que criar o app da API.
+// Frontend e backend ficam cada um no seu subdomínio próprio no EasyPanel (ex:
+// doesaude.tr4tech.com e api-doesaude.tr4tech.com). Troque a URL abaixo pelo endereço
+// real do app da API se for diferente disso.
 export const environment = {
   production: true,
   apiUrl: 'https://api-doesaude.tr4tech.com/api',
