@@ -47,18 +47,23 @@ export class Registro {
     telefone: [''],
     tipoSanguineo: [''],
     nomeInstituicao: [''],
+    cnpj: [''],
     endereco: ['']
   });
 
   constructor() {
     this.formulario.controls.tipo.valueChanges.subscribe((tipo) => {
       const nomeInstituicao = this.formulario.controls.nomeInstituicao;
+      const cnpj = this.formulario.controls.cnpj;
       if (tipo === 'INSTITUICAO') {
         nomeInstituicao.setValidators([Validators.required]);
+        cnpj.setValidators([Validators.required]);
       } else {
         nomeInstituicao.clearValidators();
+        cnpj.clearValidators();
       }
       nomeInstituicao.updateValueAndValidity();
+      cnpj.updateValueAndValidity();
     });
   }
 
@@ -86,6 +91,7 @@ export class Registro {
         telefone: valores.telefone || undefined,
         tipoSanguineo: valores.tipo === 'DOADOR' ? (valores.tipoSanguineo as any) || undefined : undefined,
         nomeInstituicao: valores.tipo === 'INSTITUICAO' ? valores.nomeInstituicao || undefined : undefined,
+        cnpj: valores.tipo === 'INSTITUICAO' ? valores.cnpj || undefined : undefined,
         endereco: valores.tipo === 'INSTITUICAO' ? valores.endereco || undefined : undefined
       })
       .subscribe({

@@ -1,0 +1,101 @@
+<section class="pagina" style="max-width: 440px;">
+  <p-card header="Redefinir senha">
+    @if (etapa() === 'EMAIL') {
+      <p class="sub" style="color: var(--p-text-muted-color); margin-top: 0;">
+        Informe o e-mail da sua conta e enviaremos um código por WhatsApp.
+      </p>
+      <form class="formulario" [formGroup]="formularioEmail" (ngSubmit)="pedirCodigo()">
+        <div class="campo">
+          <label for="email">E-mail <span class="campo__obrigatorio">*</span></label>
+          <input pInputText id="email" type="email" formControlName="email" autocomplete="email" class="campo-full" />
+          @if (formularioEmail.controls.email.invalid && formularioEmail.controls.email.touched) {
+            <small class="campo__erro">
+              {{ formularioEmail.controls.email.errors?.['required'] ? 'Informe seu e-mail.' : 'Informe um e-mail válido.' }}
+            </small>
+          }
+        </div>
+
+        @if (mensagemErro()) {
+          <p-message severity="error" [text]="mensagemErro()!" />
+        }
+
+        <p-button type="submit" label="Enviar código" icon="pi pi-whatsapp" [loading]="enviando()" styleClass="campo-full" />
+      </form>
+    } @else {
+      @if (mensagemOk()) {
+        <p-message severity="success" [text]="mensagemOk()!" styleClass="campo-full" />
+      }
+      <form class="formulario" [formGroup]="formularioCodigo" (ngSubmit)="redefinirSenha()" style="margin-top: 1rem;">
+        <div class="campo">
+          <label for="codigo">Código recebido <span class="campo__obrigatorio">*</span></label>
+          <input
+            pInputText
+            id="codigo"
+            type="text"
+            inputmode="numeric"
+            maxlength="6"
+            placeholder="000000"
+            autocomplete="one-time-code"
+            formControlName="codigo"
+            class="campo-full"
+          />
+          @if (formularioCodigo.controls.codigo.invalid && formularioCodigo.controls.codigo.touched) {
+            <small class="campo__erro">Digite o código de 6 dígitos que chegou no WhatsApp.</small>
+          }
+        </div>
+
+        <div class="campo">
+          <label for="novaSenha">Nova senha <span class="campo__obrigatorio">*</span></label>
+          <input
+            pInputText
+            id="novaSenha"
+            type="password"
+            autocomplete="new-password"
+            formControlName="novaSenha"
+            class="campo-full"
+          />
+          @if (formularioCodigo.controls.novaSenha.invalid && formularioCodigo.controls.novaSenha.touched) {
+            <small class="campo__erro">A senha precisa ter no mínimo 6 caracteres.</small>
+          }
+        </div>
+
+        <div class="campo">
+          <label for="confirmarSenha">Confirmar nova senha <span class="campo__obrigatorio">*</span></label>
+          <input
+            pInputText
+            id="confirmarSenha"
+            type="password"
+            autocomplete="new-password"
+            formControlName="confirmarSenha"
+            class="campo-full"
+          />
+        </div>
+
+        @if (mensagemErro()) {
+          <p-message severity="error" [text]="mensagemErro()!" />
+        }
+
+        <p-button type="submit" label="Salvar nova senha" icon="pi pi-check" [loading]="enviando()" styleClass="campo-full" />
+        <p-button
+          type="button"
+          label="Pedir outro código"
+          [text]="true"
+          severity="secondary"
+          styleClass="campo-full"
+          (onClick)="voltarParaEmail()"
+        />
+      </form>
+    }
+
+    <div class="separador-ou"><span>ou</span></div>
+
+    <p-button
+      label="Voltar ao login"
+      icon="pi pi-sign-in"
+      [outlined]="true"
+      severity="secondary"
+      routerLink="/login"
+      styleClass="campo-full"
+    />
+  </p-card>
+</section>

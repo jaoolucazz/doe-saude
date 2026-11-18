@@ -29,12 +29,23 @@ export interface RegistroRequest {
   telefone?: string;
   tipoSanguineo?: TipoSanguineo;
   nomeInstituicao?: string;
+  cnpj?: string;
   endereco?: string;
 }
 
 export interface LoginRequest {
   email: string;
   senha: string;
+}
+
+export interface EsqueciSenhaRequest {
+  email: string;
+}
+
+export interface RedefinirSenhaRequest {
+  email: string;
+  codigo: string;
+  novaSenha: string;
 }
 
 export interface AuthResponse {
@@ -53,6 +64,7 @@ export interface UsuarioPerfil {
   tipo: TipoUsuario;
   tipoSanguineo?: TipoSanguineo;
   nomeInstituicao?: string;
+  cnpj?: string;
   endereco?: string;
   fotoPerfilUrl?: string;
 }

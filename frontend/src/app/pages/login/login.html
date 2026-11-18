@@ -30,6 +30,14 @@
       }
 
       <p-button type="submit" label="Entrar" icon="pi pi-sign-in" [loading]="enviando()" styleClass="campo-full" />
+
+      <p-button
+        label="Esqueci minha senha"
+        [text]="true"
+        severity="secondary"
+        routerLink="/esqueci-senha"
+        styleClass="campo-full"
+      />
     </form>
 
     <div class="separador-ou"><span>ou</span></div>

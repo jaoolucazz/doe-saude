@@ -11,7 +11,8 @@ import { AuthService } from '../../core/services/auth.service';
 const MENSAGENS_MOTIVO: Record<string, string> = {
   'login-necessario': 'Entre com sua conta para acessar essa página.',
   'apenas-doador': 'Essa área é só para contas de doador.',
-  'apenas-instituicao': 'Essa área é só para contas de instituição.'
+  'apenas-instituicao': 'Essa área é só para contas de instituição.',
+  'senha-redefinida': 'Senha alterada. Entre com a nova senha.'
 };
 
 @Component({

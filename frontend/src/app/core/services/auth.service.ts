@@ -2,7 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { AuthResponse, LoginRequest, RegistroRequest, TipoUsuario } from '../models/usuario.model';
+import {
+  AuthResponse,
+  EsqueciSenhaRequest,
+  LoginRequest,
+  RedefinirSenhaRequest,
+  RegistroRequest,
+  TipoUsuario
+} from '../models/usuario.model';
 
 const CHAVE_STORAGE = 'doesaude.auth';
 
@@ -39,6 +46,14 @@ export class AuthService {
     return this.http
       .post<AuthResponse>(`${environment.apiUrl}/auth/login`, request)
       .pipe(tap((resposta) => this.salvarSessao(resposta)));
+  }
+
+  esqueciSenha(request: EsqueciSenhaRequest): Observable<{ ok: boolean }> {
+    return this.http.post<{ ok: boolean }>(`${environment.apiUrl}/auth/esqueci-senha`, request);
+  }
+
+  redefinirSenha(request: RedefinirSenhaRequest): Observable<{ ok: boolean }> {
+    return this.http.post<{ ok: boolean }>(`${environment.apiUrl}/auth/esqueci-senha/redefinir`, request);
   }
 
   logout(): void {

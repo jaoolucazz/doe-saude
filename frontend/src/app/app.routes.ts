@@ -21,6 +21,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/registro/registro').then((m) => m.Registro)
   },
   {
+    path: 'esqueci-senha',
+    loadComponent: () => import('./pages/esqueci-senha/esqueci-senha').then((m) => m.EsqueciSenha)
+  },
+  {
     path: 'necessidades/:id',
     loadComponent: () =>
       import('./pages/necessidade-detalhe/necessidade-detalhe').then((m) => m.NecessidadeDetalhe)
