@@ -71,7 +71,17 @@
 
         <div class="campo">
           <label for="cnpj">CNPJ <span class="campo__obrigatorio">*</span></label>
-          <input pInputText id="cnpj" type="text" formControlName="cnpj" placeholder="00.000.000/0000-00" class="campo-full" />
+          <input
+            pInputText
+            id="cnpj"
+            type="text"
+            inputmode="numeric"
+            formControlName="cnpj"
+            placeholder="00.000.000/0000-00"
+            maxlength="18"
+            (input)="aoDigitarCnpj($event)"
+            class="campo-full"
+          />
           @if (formulario.controls.cnpj.invalid && formulario.controls.cnpj.touched) {
             <small class="campo__erro">Informe o CNPJ da instituição.</small>
           }

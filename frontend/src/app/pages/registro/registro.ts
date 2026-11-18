@@ -71,6 +71,22 @@ export class Registro {
     return this.formulario.controls.tipo.value === 'DOADOR';
   }
 
+  // vai formatando 00.000.000/0000-00 conforme digita, cortando em 14 dígitos
+  aoDigitarCnpj(evento: Event): void {
+    const digitos = (evento.target as HTMLInputElement).value.replace(/\D/g, '').slice(0, 14);
+    let formatado = digitos;
+    if (digitos.length > 12) {
+      formatado = digitos.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{1,2})$/, '$1.$2.$3/$4-$5');
+    } else if (digitos.length > 8) {
+      formatado = digitos.replace(/^(\d{2})(\d{3})(\d{3})(\d{1,4})$/, '$1.$2.$3/$4');
+    } else if (digitos.length > 5) {
+      formatado = digitos.replace(/^(\d{2})(\d{3})(\d{1,3})$/, '$1.$2.$3');
+    } else if (digitos.length > 2) {
+      formatado = digitos.replace(/^(\d{2})(\d{1,3})$/, '$1.$2');
+    }
+    this.formulario.controls.cnpj.setValue(formatado);
+  }
+
   enviar(): void {
     if (this.formulario.invalid) {
       this.formulario.markAllAsTouched();
