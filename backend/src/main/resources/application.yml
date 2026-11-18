@@ -26,6 +26,8 @@ app:
     expiracao-ms: ${JWT_EXPIRACAO_MS:86400000}
   upload:
     dir: ${UPLOAD_DIR:./uploads}
+  n8n:
+    webhook-url: ${N8N_WEBHOOK_URL:https://n8n-n8n.rm2a7x.easypanel.host/webhook/tr4-chamados}
 
 management:
   endpoints:

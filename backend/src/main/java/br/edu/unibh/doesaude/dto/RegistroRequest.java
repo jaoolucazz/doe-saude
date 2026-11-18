@@ -15,6 +15,7 @@ public record RegistroRequest(
         String telefone,
         TipoSanguineo tipoSanguineo,
         String nomeInstituicao,
+        String cnpj,
         String endereco
 ) {
 }

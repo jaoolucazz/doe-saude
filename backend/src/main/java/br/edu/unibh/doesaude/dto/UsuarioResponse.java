@@ -12,6 +12,7 @@ public record UsuarioResponse(
         TipoUsuario tipo,
         TipoSanguineo tipoSanguineo,
         String nomeInstituicao,
+        String cnpj,
         String endereco,
         String fotoPerfilUrl
 ) {
@@ -24,6 +25,7 @@ public record UsuarioResponse(
                 u.getTipo(),
                 u.getTipoSanguineo(),
                 u.getNomeInstituicao(),
+                u.getCnpj(),
                 u.getEndereco(),
                 u.getFotoPerfilUrl()
         );

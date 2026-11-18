@@ -44,6 +44,9 @@ public class Usuario {
     @Column(name = "nome_instituicao")
     private String nomeInstituicao;
 
+    @Column(unique = true)
+    private String cnpj;
+
     private String endereco;
 
     @Column(name = "foto_perfil_url")
